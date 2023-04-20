@@ -62,7 +62,7 @@ func ValuesAtKeyPath(m map[string]interface{}, path string, getAttrs ...bool) []
 	if len(getAttrs) == 1 {
 		a = getAttrs[0]
 	}
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, pathSeparator)
 	lenKeys := len(keys)
 	ret := make([]interface{}, 0)
 	if lenKeys > 1 {

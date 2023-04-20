@@ -251,7 +251,7 @@ func MapValue(m map[string]interface{}, path string, attr map[string]interface{}
 	}
 
 	// parse the path
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, pathSeparator)
 
 	// initialize return value to 'm' so a path of "" will work correctly
 	var v interface{} = m

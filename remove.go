@@ -23,7 +23,7 @@ func remove(m interface{}, path string) error {
 // returns the last key of the path.
 // lastKey("a.b.c") would had returned "c"
 func lastKey(path string) string {
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, pathSeparator)
 	key := keys[len(keys)-1]
 	return key
 }
@@ -31,7 +31,7 @@ func lastKey(path string) string {
 // returns the path without the last key
 // parentPath("a.b.c") whould had returned "a.b"
 func parentPath(path string) string {
-	keys := strings.Split(path, ".")
-	parentPath := strings.Join(keys[0:len(keys)-1], ".")
+	keys := strings.Split(path, pathSeparator)
+	parentPath := strings.Join(keys[0:len(keys)-1], pathSeparator)
 	return parentPath
 }

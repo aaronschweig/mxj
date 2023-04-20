@@ -99,10 +99,10 @@ func PathForKeyShortest(m map[string]interface{}, key string) string {
 	}
 
 	shortest := paths[0]
-	shortestLen := len(strings.Split(shortest, "."))
+	shortestLen := len(strings.Split(shortest, pathSeparator))
 
 	for i := 1; i < len(paths); i++ {
-		vlen := len(strings.Split(paths[i], "."))
+		vlen := len(strings.Split(paths[i], pathSeparator))
 		if vlen < shortestLen {
 			shortest = paths[i]
 			shortestLen = vlen
@@ -122,7 +122,7 @@ func hasKeyPath(crumb string, iv interface{}, key string, basket *map[string]boo
 			if crumb == "" {
 				crumb = key
 			} else {
-				crumb += "." + key
+				crumb += pathSeparator + key
 			}
 			// *basket = append(*basket, crumb)
 			(*basket)[crumb] = true
@@ -134,7 +134,7 @@ func hasKeyPath(crumb string, iv interface{}, key string, basket *map[string]boo
 			if crumb == "" {
 				nbc = k
 			} else {
-				nbc = crumb + "." + k
+				nbc = crumb + pathSeparator + k
 			}
 			hasKeyPath(nbc, v, key, basket)
 		}

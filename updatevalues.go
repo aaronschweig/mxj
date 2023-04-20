@@ -92,7 +92,7 @@ func (mv Map) UpdateValuesForPath(newVal interface{}, path string, subkeys ...st
 	}
 
 	// parse path
-	keys := strings.Split(path, "@")
+	keys := strings.Split(path, pathSeparator)
 
 	var count int
 	updateValuesForKeyPath(key, val, m, keys, subKeyMap, &count)

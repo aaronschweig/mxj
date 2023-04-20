@@ -21,6 +21,12 @@ const (
 
 var defaultArraySize int = minArraySize
 
+var pathSeparator = "."
+
+func SetPathSeparator(separator string) {
+	pathSeparator = separator
+}
+
 // SetArraySize adjust the buffers for expected number of values to return from ValuesForKey() and ValuesForPath().
 // This can have the effect of significantly reducing memory allocation-copy functions for large data sets.
 // Returns the initial buffer size.
@@ -215,7 +221,7 @@ func valuesForArray(keys []*key, m Map) ([]interface{}, error) {
 			tmppath = keys[i].name
 			haveFirst = true
 		} else {
-			tmppath += "." + keys[i].name
+			tmppath += pathSeparator + keys[i].name
 		}
 
 		// Look-ahead: explode wildcards and unindexed arrays.
@@ -295,7 +301,7 @@ type key struct {
 }
 
 func parsePath(s string) ([]*key, error) {
-	keys := strings.Split(s, ".")
+	keys := strings.Split(s, pathSeparator)
 
 	ret := make([]*key, 0)
 
@@ -342,7 +348,7 @@ func (mv Map) oldValuesForPath(path string, subkeys ...string) ([]interface{}, e
 		}
 	}
 
-	keys := strings.Split(path, "@")
+	keys := strings.Split(path, pathSeparator)
 	if keys[len(keys)-1] == "" {
 		keys = keys[:len(keys)-1]
 	}
@@ -588,10 +594,10 @@ func (mv Map) PathForKeyShortest(key string) string {
 	}
 
 	shortest := paths[0]
-	shortestLen := len(strings.Split(shortest, "."))
+	shortestLen := len(strings.Split(shortest, pathSeparator))
 
 	for i := 1; i < len(paths); i++ {
-		vlen := len(strings.Split(paths[i], "."))
+		vlen := len(strings.Split(paths[i], pathSeparator))
 		if vlen < shortestLen {
 			shortest = paths[i]
 			shortestLen = vlen
@@ -613,7 +619,7 @@ func hasKeyPath(crumbs string, iv interface{}, key string, basket map[string]boo
 			if crumbs == "" {
 				nbc = key
 			} else {
-				nbc = crumbs + "." + key
+				nbc = crumbs + pathSeparator + key
 			}
 			basket[nbc] = true
 		}
@@ -624,7 +630,7 @@ func hasKeyPath(crumbs string, iv interface{}, key string, basket map[string]boo
 			if crumbs == "" {
 				nbc = k
 			} else {
-				nbc = crumbs + "." + k
+				nbc = crumbs + pathSeparator + k
 			}
 			hasKeyPath(nbc, v, key, basket)
 		}

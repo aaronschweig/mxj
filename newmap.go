@@ -23,6 +23,7 @@ import (
 )
 
 // (Map)NewMap - create a new Map from data in the current Map.
+//
 //	'keypairs' are key mappings "oldKey:newKey" and specify that the current value of 'oldKey'
 //	should be the value for 'newKey' in the returned Map.
 //		- 'oldKey' supports dot-notation as described for (Map)ValuesForPath()
@@ -32,7 +33,7 @@ import (
 //		- if 'oldKey' does not exist in the current Map, it is not written to the new Map.
 //		  "null" is not supported unless it is the current Map.
 //		- see newmap_test.go for several syntax examples
-// 	- mv.NewMap() == mxj.New()
+//	- mv.NewMap() == mxj.New()
 //
 //	NOTE: "examples/partial.go" shows how to create arbitrary sub-docs of an XML doc.
 func (mv Map) NewMap(keypairs ...string) (Map, error) {
@@ -81,7 +82,7 @@ func (mv Map) NewMap(keypairs ...string) (Map, error) {
 		}
 
 		// break down path
-		path = strings.Split(newKey, ".")
+		path = strings.Split(newKey, pathSeparator)
 		if path[len(path)-1] == "" { // ignore a trailing dot in newKey spec
 			path = path[:len(path)-1]
 		}

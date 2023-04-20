@@ -6,7 +6,7 @@ import (
 )
 
 // RenameKey renames a key in a Map.
-// It works only for nested maps. 
+// It works only for nested maps.
 // It doesn't work for cases when the key is in a list.
 func (mv Map) RenameKey(path string, newName string) error {
 	var v bool
@@ -16,7 +16,7 @@ func (mv Map) RenameKey(path string, newName string) error {
 	} else if err != nil {
 		return err
 	}
-	if v, err = mv.Exists(parentPath(path) + "." + newName); err == nil && v {
+	if v, err = mv.Exists(parentPath(path) + pathSeparator + newName); err == nil && v {
 		return errors.New("RenameKey: key already exists: " + newName)
 	} else if err != nil {
 		return err
@@ -42,7 +42,7 @@ func renameKey(m interface{}, path string, newName string) error {
 // returns a value which contains a last key in the path
 // For example: prevValueByPath("a.b.c", {a{b{c: 3}}}) returns {c: 3}
 func prevValueByPath(m interface{}, path string) (map[string]interface{}, error) {
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, pathSeparator)
 
 	switch mValue := m.(type) {
 	case map[string]interface{}:
@@ -52,7 +52,7 @@ func prevValueByPath(m interface{}, path string) (map[string]interface{}, error)
 					return mValue, nil
 				} else {
 					// keep looking for the full path to the key
-					return prevValueByPath(value, strings.Join(keys[1:], "."))
+					return prevValueByPath(value, strings.Join(keys[1:], pathSeparator))
 				}
 			}
 		}
