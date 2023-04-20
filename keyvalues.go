@@ -35,15 +35,16 @@ func SetArraySize(size int) int {
 
 // ValuesForKey return all values in Map, 'mv', associated with a 'key'. If len(returned_values) == 0, then no match.
 // On error, the returned slice is 'nil'. NOTE: 'key' can be wildcard, "*".
-//   'subkeys' (optional) are "key:val[:type]" strings representing attributes or elements in a list.
-//             - By default 'val' is of type string. "key:val:bool" and "key:val:float" to coerce them.
-//             - For attributes prefix the label with the attribute prefix character, by default a 
-//               hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
-//             - If the 'key' refers to a list, then "key:value" could select a list member of the list.
-//             - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
-//             - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
-//               exclusion critera - e.g., "!author:William T. Gaddis".
-//             - If val contains ":" symbol, use SetFieldSeparator to a unused symbol, perhaps "|".
+//
+//	'subkeys' (optional) are "key:val[:type]" strings representing attributes or elements in a list.
+//	          - By default 'val' is of type string. "key:val:bool" and "key:val:float" to coerce them.
+//	          - For attributes prefix the label with the attribute prefix character, by default a
+//	            hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
+//	          - If the 'key' refers to a list, then "key:value" could select a list member of the list.
+//	          - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
+//	          - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
+//	            exclusion critera - e.g., "!author:William T. Gaddis".
+//	          - If val contains ":" symbol, use SetFieldSeparator to a unused symbol, perhaps "|".
 func (mv Map) ValuesForKey(key string, subkeys ...string) ([]interface{}, error) {
 	m := map[string]interface{}(mv)
 	var subKeyMap map[string]interface{}
@@ -77,7 +78,8 @@ func (mv Map) ValueForKey(key string, subkeys ...string) (interface{}, error) {
 }
 
 // hasKey - if the map 'key' exists append it to array
-//          if it doesn't do nothing except scan array and map values
+//
+//	if it doesn't do nothing except scan array and map values
 func hasKey(iv interface{}, key string, ret *[]interface{}, cnt *int, subkeys map[string]interface{}) {
 	// func hasKey(iv interface{}, key string, ret *[]interface{}, subkeys map[string]interface{}) {
 	switch iv.(type) {
@@ -152,19 +154,20 @@ func hasKey(iv interface{}, key string, ret *[]interface{}, cnt *int, subkeys ma
 
 // ValuesForPatb retrieves all values for a path from the Map.  If len(returned_values) == 0, then no match.
 // On error, the returned array is 'nil'.
-//   'path' is a dot-separated path of key values.
-//          - If a node in the path is '*', then everything beyond is walked.
-//          - 'path' can contain indexed array references, such as, "*.data[1]" and "msgs[2].data[0].field" -
-//            even "*[2].*[0].field".
-//   'subkeys' (optional) are "key:val[:type]" strings representing attributes or elements in a list.
-//             - By default 'val' is of type string. "key:val:bool" and "key:val:float" to coerce them.
-//             - For attributes prefix the label with the attribute prefix character, by default a 
-//               hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
-//             - If the 'path' refers to a list, then "tag:value" would return member of the list.
-//             - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
-//             - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
-//               exclusion critera - e.g., "!author:William T. Gaddis".
-//             - If val contains ":" symbol, use SetFieldSeparator to a unused symbol, perhaps "|".
+//
+//	'path' is a dot-separated path of key values.
+//	       - If a node in the path is '*', then everything beyond is walked.
+//	       - 'path' can contain indexed array references, such as, "*.data[1]" and "msgs[2].data[0].field" -
+//	         even "*[2].*[0].field".
+//	'subkeys' (optional) are "key:val[:type]" strings representing attributes or elements in a list.
+//	          - By default 'val' is of type string. "key:val:bool" and "key:val:float" to coerce them.
+//	          - For attributes prefix the label with the attribute prefix character, by default a
+//	            hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
+//	          - If the 'path' refers to a list, then "tag:value" would return member of the list.
+//	          - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
+//	          - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
+//	            exclusion critera - e.g., "!author:William T. Gaddis".
+//	          - If val contains ":" symbol, use SetFieldSeparator to a unused symbol, perhaps "|".
 func (mv Map) ValuesForPath(path string, subkeys ...string) ([]interface{}, error) {
 	// If there are no array indexes in path, use legacy ValuesForPath() logic.
 	if strings.Index(path, "[") < 0 {
@@ -339,7 +342,7 @@ func (mv Map) oldValuesForPath(path string, subkeys ...string) ([]interface{}, e
 		}
 	}
 
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, "@")
 	if keys[len(keys)-1] == "" {
 		keys = keys[:len(keys)-1]
 	}
@@ -502,6 +505,7 @@ func hasSubKeys(v interface{}, subkeys map[string]interface{}) bool {
 }
 
 // Generate map of key:value entries as map[string]string.
+//
 //	'kv' arguments are "name:value" pairs: attribute keys are designated with prepended hyphen, '-'.
 //	If len(kv) == 0, the return is (nil, nil).
 func getSubKeyMap(kv ...string) (map[string]interface{}, error) {

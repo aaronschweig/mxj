@@ -56,7 +56,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 var data = []byte(`

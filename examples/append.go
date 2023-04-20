@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 var data = []byte(`

@@ -22,7 +22,7 @@ const (
 	import (
 		"encoding/json"
 		"fmt"
-		"github.com/clbanning/mxj"
+		"github.com/aaronschweig/mxj"
 	)
 
 	func main() {

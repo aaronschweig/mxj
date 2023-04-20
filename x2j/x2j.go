@@ -7,8 +7,9 @@
 package x2j
 
 import (
-	. "github.com/clbanning/mxj"
 	"io"
+
+	. "github.com/aaronschweig/mxj"
 )
 
 // FromXml() --> map[string]interface{}
@@ -106,6 +107,7 @@ func XmlValuesForPath(xmlVal []byte, path string, attrs ...string) ([]interface{
 }
 
 // Wrap UpdateValuesForPath for XML
+//
 //	'xmlVal' is XML value
 //	'newTagValue' is the value to replace an existing value at the end of 'path'
 //	'path' is the dot-notation path with the tag whose value is to be replaced at the end

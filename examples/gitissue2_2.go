@@ -4,9 +4,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/clbanning/mxj"
 	"io"
 	"os"
+
+	"github.com/aaronschweig/mxj"
 )
 
 func main() {

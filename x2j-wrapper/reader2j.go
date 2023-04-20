@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 // ToMap() - parse a XML io.Reader to a map[string]interface{}

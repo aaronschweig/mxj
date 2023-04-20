@@ -25,8 +25,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/clbanning/mxj"
 	"strings"
+
+	"github.com/aaronschweig/mxj"
 )
 
 var data = []byte(`

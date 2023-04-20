@@ -5,9 +5,10 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/clbanning/mxj"
 	"io"
 	"io/ioutil"
+
+	"github.com/aaronschweig/mxj"
 )
 
 func main() {

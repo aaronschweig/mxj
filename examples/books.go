@@ -4,8 +4,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/clbanning/mxj"
 	"log"
+
+	"github.com/aaronschweig/mxj"
 )
 
 var xmldata = []byte(`

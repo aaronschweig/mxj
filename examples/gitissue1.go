@@ -5,8 +5,9 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/clbanning/mxj"
 	"io"
+
+	"github.com/aaronschweig/mxj"
 )
 
 var data = []byte(`

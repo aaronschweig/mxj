@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 		"five":  5,
 	}
 
-	m, err := mxj.AnyXmlIndent(data,"", "   ")
+	m, err := mxj.AnyXmlIndent(data, "", "   ")
 	if err != nil {
 		fmt.Println(err)
 		return

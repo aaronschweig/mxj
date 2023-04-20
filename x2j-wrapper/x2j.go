@@ -4,61 +4,65 @@
 // license that can be found in the LICENSE file
 
 /*
-   Unmarshal dynamic / arbitrary XML docs and extract values (using wildcards, if necessary).
-   THIS IS ONLY PROVIDED TO FACILIATE MIGRATING TO "mxj" PACKAGE FROM "x2j" PACKAGE.
+Unmarshal dynamic / arbitrary XML docs and extract values (using wildcards, if necessary).
+THIS IS ONLY PROVIDED TO FACILIATE MIGRATING TO "mxj" PACKAGE FROM "x2j" PACKAGE.
 
-   NOTICE: 03mar18, package mostly replicates github.com/clbanning/x2j using github.com/clbanning/mxj
-                    (Note: there is no concept of Node or Tree; only direct decoding to map[string]interface{}.)
+NOTICE: 03mar18, package mostly replicates github.com/clbanning/x2j using github.com/clbanning/mxj
 
-   One useful function is:
+	(Note: there is no concept of Node or Tree; only direct decoding to map[string]interface{}.)
 
-       - Unmarshal(doc []byte, v interface{}) error  
-         where v is a pointer to a variable of type 'map[string]interface{}', 'string', or
-         any other type supported by xml.Unmarshal().
+One useful function is:
 
-   To retrieve a value for specific tag use: 
+  - Unmarshal(doc []byte, v interface{}) error
+    where v is a pointer to a variable of type 'map[string]interface{}', 'string', or
+    any other type supported by xml.Unmarshal().
 
-       - DocValue(doc, path string, attrs ...string) (interface{},error) 
-       - MapValue(m map[string]interface{}, path string, attr map[string]interface{}, recast ...bool) (interface{}, error)
+To retrieve a value for specific tag use:
 
-   The 'path' argument is a period-separated tag hierarchy - also known as dot-notation.
-   It is the program's responsibility to cast the returned value to the proper type; possible 
-   types are the normal JSON unmarshaling types: string, float64, bool, []interface, map[string]interface{}.  
+  - DocValue(doc, path string, attrs ...string) (interface{},error)
+  - MapValue(m map[string]interface{}, path string, attr map[string]interface{}, recast ...bool) (interface{}, error)
 
-   To retrieve all values associated with a tag occurring anywhere in the XML document use:
+The 'path' argument is a period-separated tag hierarchy - also known as dot-notation.
+It is the program's responsibility to cast the returned value to the proper type; possible
+types are the normal JSON unmarshaling types: string, float64, bool, []interface, map[string]interface{}.
 
-       - ValuesForTag(doc, tag string) ([]interface{}, error)
-       - ValuesForKey(m map[string]interface{}, key string) []interface{}
+To retrieve all values associated with a tag occurring anywhere in the XML document use:
 
-       Demos: http://play.golang.org/p/m8zP-cpk0O
-              http://play.golang.org/p/cIteTS1iSg
-              http://play.golang.org/p/vd8pMiI21b
+  - ValuesForTag(doc, tag string) ([]interface{}, error)
 
-   Returned values should be one of map[string]interface, []interface{}, or string.
+  - ValuesForKey(m map[string]interface{}, key string) []interface{}
 
-   All the values assocated with a tag-path that may include one or more wildcard characters - 
-   '*' - can also be retrieved using:
+    Demos: http://play.golang.org/p/m8zP-cpk0O
+    http://play.golang.org/p/cIteTS1iSg
+    http://play.golang.org/p/vd8pMiI21b
 
-       - ValuesFromTagPath(doc, path string, getAttrs ...bool) ([]interface{}, error)
-       - ValuesFromKeyPath(map[string]interface{}, path string, getAttrs ...bool) []interface{}
+Returned values should be one of map[string]interface, []interface{}, or string.
 
-       Demos: http://play.golang.org/p/kUQnZ8VuhS
-   	        http://play.golang.org/p/l1aMHYtz7G
+All the values assocated with a tag-path that may include one or more wildcard characters -
+'*' - can also be retrieved using:
 
-   NOTE: care should be taken when using "*" at the end of a path - i.e., "books.book.*".  See
-   the x2jpath_test.go case on how the wildcard returns all key values and collapses list values;
-   the same message structure can load a []interface{} or a map[string]interface{} (or an interface{}) 
-   value for a tag.
+  - ValuesFromTagPath(doc, path string, getAttrs ...bool) ([]interface{}, error)
 
-   See the test cases in "x2jpath_test.go" and programs in "example" subdirectory for more.
+  - ValuesFromKeyPath(map[string]interface{}, path string, getAttrs ...bool) []interface{}
 
-   XML PARSING CONVENTIONS
+    Demos: http://play.golang.org/p/kUQnZ8VuhS
+    http://play.golang.org/p/l1aMHYtz7G
 
-      - Attributes are parsed to map[string]interface{} values by prefixing a hyphen, '-',
-        to the attribute label.
-      - If the element is a simple element and has attributes, the element value
-        is given the key '#text' for its map[string]interface{} representation.  (See
-        the 'atomFeedString.xml' test data, below.)
+NOTE: care should be taken when using "*" at the end of a path - i.e., "books.book.*".  See
+the x2jpath_test.go case on how the wildcard returns all key values and collapses list values;
+the same message structure can load a []interface{} or a map[string]interface{} (or an interface{})
+value for a tag.
+
+See the test cases in "x2jpath_test.go" and programs in "example" subdirectory for more.
+
+XML PARSING CONVENTIONS
+
+  - Attributes are parsed to map[string]interface{} values by prefixing a hyphen, '-',
+    to the attribute label.
+
+  - If the element is a simple element and has attributes, the element value
+    is given the key '#text' for its map[string]interface{} representation.  (See
+    the 'atomFeedString.xml' test data, below.)
 
     io.Reader HANDLING
 
@@ -68,7 +72,6 @@
     NON-UTF8 CHARACTER SETS
 
     Use the X2jCharsetReader variable to assign io.Reader for alternative character sets.
-
 */
 package x2j
 
@@ -81,17 +84,19 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 // If X2jCharsetReader != nil, it will be used to decode the doc or stream if required
-//   import charset "code.google.com/p/go-charset/charset"
-//   ...
-//   x2j.X2jCharsetReader = charset.NewReader
-//   s, err := x2j.DocToJson(doc)
-var X2jCharsetReader func(charset string, input io.Reader)(io.Reader, error)
+//
+//	import charset "code.google.com/p/go-charset/charset"
+//	...
+//	x2j.X2jCharsetReader = charset.NewReader
+//	s, err := x2j.DocToJson(doc)
+var X2jCharsetReader func(charset string, input io.Reader) (io.Reader, error)
 
 // DocToJson - return an XML doc as a JSON string.
+//
 //	If the optional argument 'recast' is 'true', then values will be converted to boolean or float64 if possible.
 func DocToJson(doc string, recast ...bool) (string, error) {
 	var r bool
@@ -113,6 +118,7 @@ func DocToJson(doc string, recast ...bool) (string, error) {
 }
 
 // DocToJsonIndent - return an XML doc as a prettified JSON string.
+//
 //	If the optional argument 'recast' is 'true', then values will be converted to boolean or float64 if possible.
 //	Note: recasting is only applied to element values, not attribute values.
 func DocToJsonIndent(doc string, recast ...bool) (string, error) {
@@ -136,6 +142,7 @@ func DocToJsonIndent(doc string, recast ...bool) (string, error) {
 
 // DocToMap - convert an XML doc into a map[string]interface{}.
 // (This is analogous to unmarshalling a JSON string to map[string]interface{} using json.Unmarshal().)
+//
 //	If the optional argument 'recast' is 'true', then values will be converted to boolean or float64 if possible.
 //	Note: recasting is only applied to element values, not attribute values.
 func DocToMap(doc string, recast ...bool) (map[string]interface{}, error) {
@@ -147,6 +154,7 @@ func DocToMap(doc string, recast ...bool) (map[string]interface{}, error) {
 }
 
 // WriteMap - dumps the map[string]interface{} for examination.
+//
 //	'offset' is initial indentation count; typically: WriteMap(m).
 //	NOTE: with XML all element types are 'string'.
 //	But code written as generic for use with maps[string]interface{} values from json.Unmarshal().
@@ -205,6 +213,7 @@ func WriteMap(m interface{}, offset ...int) string {
 // ------------------------  value extraction from XML doc --------------------------
 
 // DocValue - return a value for a specific tag
+//
 //	'doc' is a valid XML message.
 //	'path' is a hierarchy of XML tags, e.g., "doc.name".
 //	'attrs' is an OPTIONAL list of "name:value" pairs for attributes.
@@ -227,6 +236,7 @@ func DocValue(doc, path string, attrs ...string) (interface{}, error) {
 }
 
 // MapValue - retrieves value based on walking the map, 'm'.
+//
 //	'm' is the map value of interest.
 //	'path' is a period-separated hierarchy of keys in the map.
 //	'attr' is a map of attribute "name:value" pairs from NewAttributeMap().  May be 'nil'.
@@ -325,6 +335,7 @@ func hasAttributes(v interface{}, a map[string]interface{}) (interface{}, error)
 }
 
 // NewAttributeMap() - generate map of attributes=value entries as map["-"+string]string.
+//
 //	'kv' arguments are "name:value" pairs that appear as attributes, name="value".
 //	If len(kv) == 0, the return is (nil, nil).
 func NewAttributeMap(kv ...string) (map[string]interface{}, error) {
@@ -346,6 +357,7 @@ func NewAttributeMap(kv ...string) (map[string]interface{}, error) {
 //------------------------- get values for key ----------------------------
 
 // ValuesForTag - return all values in doc associated with 'tag'.
+//
 //	Returns nil if the 'tag' does not occur in the doc.
 //	If there is an error encounted while parsing doc, that is returned.
 //	If you want values 'recast' use DocToMap() and ValuesForKey().
@@ -359,6 +371,7 @@ func ValuesForTag(doc, tag string) ([]interface{}, error) {
 }
 
 // ValuesForKey - return all values in map associated with 'key'
+//
 //	Returns nil if the 'key' does not occur in the map
 func ValuesForKey(m map[string]interface{}, key string) []interface{} {
 	ret := make([]interface{}, 0)
@@ -371,7 +384,8 @@ func ValuesForKey(m map[string]interface{}, key string) []interface{} {
 }
 
 // hasKey - if the map 'key' exists append it to array
-//          if it doesn't do nothing except scan array and map values
+//
+//	if it doesn't do nothing except scan array and map values
 func hasKey(iv interface{}, key string, ret *[]interface{}) {
 	switch iv.(type) {
 	case map[string]interface{}:
@@ -393,6 +407,7 @@ func hasKey(iv interface{}, key string, ret *[]interface{}) {
 
 // Unmarshal - wraps xml.Unmarshal with handling of map[string]interface{}
 // and string type variables.
+//
 //	Usage: x2j.Unmarshal(doc,&m) where m of type map[string]interface{}
 //	       x2j.Unmarshal(doc,&s) where s of type string (Overrides xml.Unmarshal().)
 //	       x2j.Unmarshal(doc,&struct) - passed to xml.Unmarshal()
@@ -421,6 +436,7 @@ func Unmarshal(doc []byte, v interface{}) error {
 }
 
 // ByteDocToJson - return an XML doc as a JSON string.
+//
 //	If the optional argument 'recast' is 'true', then values will be converted to boolean or float64 if possible.
 func ByteDocToJson(doc []byte, recast ...bool) (string, error) {
 	var r bool
@@ -443,6 +459,7 @@ func ByteDocToJson(doc []byte, recast ...bool) (string, error) {
 
 // ByteDocToMap - convert an XML doc into a map[string]interface{}.
 // (This is analogous to unmarshalling a JSON string to map[string]interface{} using json.Unmarshal().)
+//
 //	If the optional argument 'recast' is 'true', then values will be converted to boolean or float64 if possible.
 //	Note: recasting is only applied to element values, not attribute values.
 func ByteDocToMap(doc []byte, recast ...bool) (map[string]interface{}, error) {
@@ -452,4 +469,3 @@ func ByteDocToMap(doc []byte, recast ...bool) (map[string]interface{}, error) {
 	}
 	return mxj.NewMapXml(doc, r)
 }
-

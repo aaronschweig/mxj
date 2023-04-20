@@ -16,22 +16,23 @@ import (
 // Update value based on path and possible sub-key values.
 // A count of the number of values changed and any error are returned.
 // If the count == 0, then no path (and subkeys) matched.
-//	'newVal' can be a Map or map[string]interface{} value with a single 'key' that is the key to be modified
-//	             or a string value "key:value[:type]" where type is "bool" or "num" to cast the value.
-//	'path' is dot-notation list of keys to traverse; last key in path can be newVal key
-//	       NOTE: 'path' spec does not currently support indexed array references.
-//	'subkeys' are "key:value[:type]" entries that must match for path node
-//             - For attributes prefix the label with the attribute prefix character, by default a 
-//               hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
-//             - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
-//             - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
-//	              exclusion critera - e.g., "!author:William T. Gaddis".
 //
-//	NOTES:
-//		1. Simple elements with attributes need a path terminated as ".#text" to modify the actual value.
-//		2. Values in Maps created using NewMapXmlSeq are map[string]interface{} values with a "#text" key.
-//		3. If values in 'newVal' or 'subkeys' args contain ":", use SetFieldSeparator to an unused symbol,
-//	      perhaps "|".
+//		'newVal' can be a Map or map[string]interface{} value with a single 'key' that is the key to be modified
+//		             or a string value "key:value[:type]" where type is "bool" or "num" to cast the value.
+//		'path' is dot-notation list of keys to traverse; last key in path can be newVal key
+//		       NOTE: 'path' spec does not currently support indexed array references.
+//		'subkeys' are "key:value[:type]" entries that must match for path node
+//	            - For attributes prefix the label with the attribute prefix character, by default a
+//	              hyphen, '-', e.g., "-seq:3". (See SetAttrPrefix function.)
+//	            - The subkey can be wildcarded - "key:*" - to require that it's there with some value.
+//	            - If a subkey is preceeded with the '!' character, the key:value[:type] entry is treated as an
+//		              exclusion critera - e.g., "!author:William T. Gaddis".
+//
+//		NOTES:
+//			1. Simple elements with attributes need a path terminated as ".#text" to modify the actual value.
+//			2. Values in Maps created using NewMapXmlSeq are map[string]interface{} values with a "#text" key.
+//			3. If values in 'newVal' or 'subkeys' args contain ":", use SetFieldSeparator to an unused symbol,
+//		      perhaps "|".
 func (mv Map) UpdateValuesForPath(newVal interface{}, path string, subkeys ...string) (int, error) {
 	m := map[string]interface{}(mv)
 
@@ -91,7 +92,7 @@ func (mv Map) UpdateValuesForPath(newVal interface{}, path string, subkeys ...st
 	}
 
 	// parse path
-	keys := strings.Split(path, ".")
+	keys := strings.Split(path, "@")
 
 	var count int
 	updateValuesForKeyPath(key, val, m, keys, subKeyMap, &count)

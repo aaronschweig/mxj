@@ -1,0 +1,6 @@
+github.com/aaronschweig/mxj v1.8.4 h1:KBGUzOcnV4dFurIvKWkIHlBSW004111MXUwKOY3hL+8=
+github.com/aaronschweig/mxj v1.8.4/go.mod h1:PubBlh06kIVzrFkjedKJyqcF8OLSjFxaNZ0oBn2I72E=
+github.com/clbanning/mxj v1.8.4 h1:HuhwZtbyvyOw+3Z1AowPkU87JkJUSv751ELWaiTpj8I=
+github.com/clbanning/mxj v1.8.4/go.mod h1:BVjHeAH+rl9rs6f+QIpeRl0tfu10SXn1pUSa5PVGJng=
+github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
+github.com/google/go-cmp v0.5.9/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=

@@ -38,11 +38,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/clbanning/mxj"
 	"log"
 	"os"
 	"sort"
 	"time"
+
+	"github.com/aaronschweig/mxj"
 )
 
 func main() {

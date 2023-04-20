@@ -9,7 +9,7 @@ package x2j
 import (
 	"strings"
 
-	"github.com/clbanning/mxj"
+	"github.com/aaronschweig/mxj"
 )
 
 // ------------------- sweep up everything for some point in the node tree ---------------------
@@ -17,14 +17,15 @@ import (
 // ValuesFromTagPath - deliver all values for a path node from a XML doc
 // If there are no values for the path 'nil' is returned.
 // A return value of (nil, nil) means that there were no values and no errors parsing the doc.
-//   'doc' is the XML document
-//   'path' is a dot-separated path of tag nodes
-//   'getAttrs' can be set 'true' to return attribute values for "*"-terminated path
-//          If a node is '*', then everything beyond is scanned for values.
-//          E.g., "doc.books' might return a single value 'book' of type []interface{}, but
-//                "doc.books.*" could return all the 'book' entries as []map[string]interface{}.
-//                "doc.books.*.author" might return all the 'author' tag values as []string - or
-//            		"doc.books.*.author.lastname" might be required, depending on he schema.
+//
+//	'doc' is the XML document
+//	'path' is a dot-separated path of tag nodes
+//	'getAttrs' can be set 'true' to return attribute values for "*"-terminated path
+//	       If a node is '*', then everything beyond is scanned for values.
+//	       E.g., "doc.books' might return a single value 'book' of type []interface{}, but
+//	             "doc.books.*" could return all the 'book' entries as []map[string]interface{}.
+//	             "doc.books.*.author" might return all the 'author' tag values as []string - or
+//	         		"doc.books.*.author.lastname" might be required, depending on he schema.
 func ValuesFromTagPath(doc, path string, getAttrs ...bool) ([]interface{}, error) {
 	var a bool
 	if len(getAttrs) == 1 {
@@ -41,11 +42,12 @@ func ValuesFromTagPath(doc, path string, getAttrs ...bool) ([]interface{}, error
 
 // ValuesFromKeyPath - deliver all values for a path node from a map[string]interface{}
 // If there are no values for the path 'nil' is returned.
-//   'm' is the map to be walked
-//   'path' is a dot-separated path of key values
-//   'getAttrs' can be set 'true' to return attribute values for "*"-terminated path
-//          If a node is '*', then everything beyond is walked.
-//          E.g., see ValuesFromTagPath documentation.
+//
+//	'm' is the map to be walked
+//	'path' is a dot-separated path of key values
+//	'getAttrs' can be set 'true' to return attribute values for "*"-terminated path
+//	       If a node is '*', then everything beyond is walked.
+//	       E.g., see ValuesFromTagPath documentation.
 func ValuesFromKeyPath(m map[string]interface{}, path string, getAttrs ...bool) []interface{} {
 	var a bool
 	if len(getAttrs) == 1 {
